@@ -1,0 +1,211 @@
+# Smart Elderly Safety Band
+
+An IoT-based wearable emergency monitoring system designed to improve elderly safety through fall detection, inactivity monitoring, panic alerts, and caregiver notification.
+
+## Overview
+
+The Smart Elderly Safety Band is a wearable device that monitors elderly users and provides emergency assistance when abnormal situations are detected.
+
+The system combines an ESP32-C3 wearable device with a Flutter mobile application. The wearable device performs local detection and provides immediate alerts using a buzzer, LEDs, and OLED display, while the mobile application receives notifications through Bluetooth Low Energy (BLE).
+
+## Features
+
+### Fall Detection
+- Detects fall-like motion patterns using MPU6050 motion sensing.
+- Analyzes acceleration changes and sudden impact.
+- Provides warning and emergency alerts.
+
+### Panic Alert
+- Allows the user to manually trigger an emergency alert using a panic button.
+- Useful when the user needs immediate assistance.
+
+### Inactivity Detection
+- Monitors user movement.
+- Generates an alert when no significant movement is detected for a defined period.
+
+### Sleep Mode
+- Allows the user to enable sleep mode during rest.
+- Prevents false inactivity alerts while maintaining emergency monitoring features.
+
+### Alert Cancellation
+- Allows users to cancel false alerts before escalation.
+
+### Mobile Application
+- Flutter-based caregiver application.
+- Receives device notifications through Bluetooth Low Energy.
+- Displays device status and alerts.
+
+## System Architecture
+
+```
+Wearable Device
+        |
+        |
+        v
++----------------+
+|    ESP32-C3    |
+| Main Controller|
++----------------+
+        |
+        |
+ +------+------+
+ |             |
+ v             v
+MPU6050     Buttons
+Motion      Panic/
+Sensor      Cancel
+ |
+ |
+ v
+Detection & Control Logic
+ |
+ +----------------+
+ |                |
+ v                v
+Local Alerts     BLE Communication
+OLED             |
+Buzzer           v
+LEDs        Flutter App
+```
+
+## Hardware Components
+
+| Component | Purpose |
+|---|---|
+| ESP32-C3 Super Mini | Main controller and BLE communication |
+| MPU6050 | Motion sensing for fall and activity detection |
+| OLED Display | Displays device status |
+| Buzzer | Provides sound alerts |
+| LEDs | Visual status indication |
+| Panic Button | Manual emergency trigger |
+| Cancel/Sleep Button | Alert cancellation and sleep mode control |
+| LiPo Battery | Portable power source |
+| TP4056 | Battery charging module |
+| MT3608 | Voltage boost converter |
+
+## Software Components
+
+### ESP32 Firmware
+- Developed using Arduino IDE.
+- Handles:
+  - Sensor reading
+  - Fall detection logic
+  - Inactivity monitoring
+  - Panic button handling
+  - OLED updates
+  - BLE communication
+
+Location:
+
+```
+ESP32_Code/
+```
+
+### Flutter Mobile Application
+- Developed using Flutter and Dart.
+- Provides:
+  - BLE device connection
+  - Alert notifications
+  - Device status monitoring
+
+Location:
+
+```
+Flutter_App/
+```
+
+## Operating Flow
+
+```
+Sense
+  |
+  v
+Process
+  |
+  v
+Decision
+  |
+  v
+Local Alert
+  |
+  v
+Mobile Notification
+```
+
+## Emergency Detection Flow
+
+### Normal Mode
+- Device continuously monitors motion and buttons.
+
+### Warning Mode
+When an abnormal event is detected:
+- Red LED activates.
+- Buzzer provides warning.
+- OLED displays warning status.
+- Mobile app receives notification.
+
+### Emergency Mode
+If the warning is not cancelled:
+- Continuous alert is activated.
+- Emergency notification is sent.
+
+## LED Indicators
+
+| LED | Status |
+|---|---|
+| Green | Normal monitoring |
+| Blue | Sleep mode |
+| Red | Warning / Emergency |
+
+## Power System
+
+The device uses:
+
+- LiPo rechargeable battery
+- TP4056 charging module
+- MT3608 boost converter
+
+The power system allows the device to operate as a portable wearable.
+
+## Repository Structure
+
+```
+Smart_Elderly_Safety_Band
+│
+├── ESP32_Code
+│   └── ElderlyBand_ESP32.ino
+│
+├── Flutter_App
+│   └── elder_monitor_app
+│
+├── Documentation
+│   ├── Presentation.pdf
+│   ├── User_Guide.pdf
+│   └── Images
+│
+└── README.md
+```
+
+## Limitations
+
+- BLE communication has a limited range.
+- MPU6050 cannot directly measure exact fall height.
+- Fall detection depends on acceleration and motion patterns.
+- Battery percentage requires voltage measurement hardware for accurate estimation.
+
+## Future Improvements
+
+- Long-distance communication using Wi-Fi/GSM.
+- GPS location sharing.
+- Cloud-based caregiver monitoring.
+- Improved fall detection using machine learning.
+- Custom PCB design.
+- Accurate battery monitoring using ADC measurement.
+
+## Project Purpose
+
+The purpose of this project is to develop a low-cost wearable safety system that can assist elderly users by detecting emergency situations and providing quick alerts to nearby people and caregivers.
+
+## Authors
+
+Developed as an IoT-based elderly safety monitoring project.
